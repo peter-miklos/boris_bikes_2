@@ -2,18 +2,18 @@ require_relative 'bike'
 
 class DockingStation
 
-  #def initialize
-  #end
+  def initialize
+    @bikes = []
+  end
 
   def release_bike
-    raise "No bike available" unless @bike
-    #@bike
-    Bike.new
+    raise "No bike available" if @bikes.empty?
+    @bikes.shift
   end
 
   def dock(bike)
-    raise 'No spaces available' if @bike
-    @bike = bike
+    raise 'No spaces available' if @bikes.size >= 20
+    @bikes << bike
 
   end
 
@@ -22,6 +22,6 @@ class DockingStation
   #end
   #commented out due to the use of attr_reader below
 
-  attr_reader :bike
+  attr_reader :bikes
 
 end
