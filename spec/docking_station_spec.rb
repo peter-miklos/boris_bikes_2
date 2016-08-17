@@ -32,4 +32,10 @@ describe DockingStation do
       expect{subject.release_bike}.to raise_error(RuntimeError, "No bike available")
     end
 
+    it 'doesn\'t dock the bike when the docking station is full' do
+      subject.dock(Bike.new)
+      expect{subject.dock(Bike.new)}.to raise_error 'No spaces available'
+    end
+
+
 end
