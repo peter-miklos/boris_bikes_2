@@ -39,8 +39,14 @@ describe DockingStation do
     #end
 
     it "doesn't dock a new bike if there are 20 bikes already docked" do
-      (DockingStation::DEFAULT_CAPACITY).times {subject.dock(Bike.new)}
+      (subject.capacity).times {subject.dock(Bike.new)}
       expect{subject.dock(Bike.new)}.to raise_error "No spaces available"
     end
+
+    it 'allows user to set a @capacity when new Docking Station is created' do
+      #a_docking_station = DockingStation.new(22)
+      expect(subject.capacity).to eq(DockingStation::DEFAULT_CAPACITY)
+    end
+
 
 end
