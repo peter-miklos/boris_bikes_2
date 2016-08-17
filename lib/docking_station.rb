@@ -7,7 +7,7 @@ class DockingStation
   end
 
   def release_bike
-    raise "No bike available" if @bikes.empty?
+    raise "No bike available" if empty?
     @bikes.shift
   end
 
@@ -28,6 +28,10 @@ class DockingStation
 
   def full?
     @bikes.size >= 20
+  end
+
+  def empty?
+    @bikes.empty?
   end
 
 end
