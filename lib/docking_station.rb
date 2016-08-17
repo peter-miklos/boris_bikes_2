@@ -2,6 +2,8 @@ require_relative 'bike'
 
 class DockingStation
 
+  DEFAULT_CAPACITY = 20
+
   def initialize
     @bikes = []
   end
