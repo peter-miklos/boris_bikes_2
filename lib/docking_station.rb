@@ -12,7 +12,7 @@ class DockingStation
   end
 
   def dock(bike)
-    raise 'No spaces available' if @bikes.size >= 20
+    raise 'No spaces available' if full?
     @bikes << bike
 
   end
@@ -23,5 +23,11 @@ class DockingStation
   #commented out due to the use of attr_reader below
 
   attr_reader :bikes
+
+  private
+
+  def full?
+    @bikes.size >= 20
+  end
 
 end
