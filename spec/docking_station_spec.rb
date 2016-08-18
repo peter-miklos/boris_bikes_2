@@ -5,10 +5,15 @@ describe DockingStation do
     it { is_expected.to respond_to :release_bike}
 
     let(:bike) {double :bike}
-    let(:bike01) {double :bike01}
-    let(:bike02) {double :bike02}
-    it "releases working bikes" do
+    let(:broken_bike) {double :broken_bike}
+
+    before(:each) do
       allow(bike).to receive(:working?).and_return(true)
+      allow(broken_bike).to receive(:working?).and_return(false)
+    end
+
+    it "releases working bikes" do
+      #allow(bike).to receive(:working?).and_return(true)
       subject.dock(bike)
       released_bike = subject.release_bike
       expect(released_bike).to be_working
@@ -64,29 +69,16 @@ describe DockingStation do
     end
 
     it "doesn't release the bike if it's broken" do
-      docking_station = DockingStation.new
-      allow(bike).to receive(:working?).and_return(false)
-      #broken_bike = double(:bike)
-      #bike.set_broken
-      docking_station.dock(bike)
-      expect{docking_station.release_bike}.to raise_error("No working bikes available")
+      subject.dock(broken_bike)
+      expect{subject.release_bike}.to raise_error("No working bikes available")
     end
 
     it "should return the only working bike in an array of 2 broken bikes and 1 working bike" do
-      docking_station = DockingStation.new
-      allow(bike01).to receive(:working?).and_return(false)
-      #bike01 = double(:bike)
-      #bike01.set_broken
-      allow(bike02).to receive(:working?).and_return(true)
-      #bike02 = double(:bike)
-      #bike03 = double(:bike)
-      #bike03.set_broken
-      docking_station.dock(bike01); docking_station.dock(bike02); docking_station.dock(bike01)
-      expect(docking_station.release_bike).to eq bike02
+      subject.dock(broken_bike); subject.dock(bike); subject.dock(broken_bike)
+      expect(subject.release_bike).to eq bike
     end
 
     it 'should release working bikes' do
-      allow(bike).to receive(:working?).and_return(true)
       subject.dock(bike)
 
       released_bike = subject.release_bike
@@ -95,13 +87,9 @@ describe DockingStation do
     end
 
     it 'should delete all broken bikes from the station if rm_broken_bikes is called' do
-      docking_station = DockingStation.new
-      allow(bike01).to receive(:working?).and_return(false)
-      allow(bike02).to receive(:working?).and_return(true)
+      subject.dock(broken_bike); subject.dock(bike); subject.dock(broken_bike)
 
-      docking_station.dock(bike01); docking_station.dock(bike02); docking_station.dock(bike01)
-
-      expect(docking_station.rm_broken_bikes).to eq [bike02]
+      expect(subject.rm_broken_bikes).to eq [bike]
     end
 
 end
