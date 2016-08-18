@@ -7,7 +7,6 @@ class Bike
     !@broken
   end
 
-  #private
   def set_broken
     @broken = true
   end

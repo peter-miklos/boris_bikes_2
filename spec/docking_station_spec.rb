@@ -94,4 +94,14 @@ describe DockingStation do
       expect(released_bike).to be_working
     end
 
+    it 'should delete all broken bikes from the station if rm_broken_bikes is called' do
+      docking_station = DockingStation.new
+      allow(bike01).to receive(:working?).and_return(false)
+      allow(bike02).to receive(:working?).and_return(true)
+
+      docking_station.dock(bike01); docking_station.dock(bike02); docking_station.dock(bike01)
+
+      expect(docking_station.rm_broken_bikes).to eq [bike02]
+    end
+
 end
