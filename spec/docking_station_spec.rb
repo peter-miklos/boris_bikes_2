@@ -66,6 +66,15 @@ describe DockingStation do
       expect{docking_station.release_bike}.to raise_error("No working bikes available")
     end
 
-
+    it "should return the only working bike in an array of 2 broken bikes and 1 working bike" do
+      docking_station = DockingStation.new
+      bike01 = Bike.new
+      bike01.set_broken
+      bike02 = Bike.new
+      bike03 = Bike.new
+      bike03.set_broken
+      docking_station.dock(bike01); docking_station.dock(bike02); docking_station.dock(bike03)
+      expect(docking_station.release_bike).to eq bike02
+    end
 
 end

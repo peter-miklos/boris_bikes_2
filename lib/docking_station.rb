@@ -13,8 +13,8 @@ class DockingStation
 
   def release_bike
     raise "No bike available" if empty?
-    @bikes.each do |bike|
-        return @bikes.shift if bike.working?
+    @bikes.each.with_index do |bike, index|
+        return @bikes.delete_at(index) if bike.working?        
     end
     raise "No working bikes available"
 
