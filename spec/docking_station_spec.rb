@@ -1,10 +1,11 @@
 require "docking_station"
 
 describe DockingStation do
+
     it { is_expected.to respond_to :release_bike}
 
     it "releases working bikes" do
-      subject.dock(Bike.new)
+      subject.dock(double(:bike))
       bike = subject.release_bike
       expect(bike).to be_working
     end
@@ -18,12 +19,12 @@ describe DockingStation do
     end
 
     it "docks something" do
-      bike = Bike.new
+      bike = double(:bike)
       expect(subject.dock(bike)).to include(bike)
     end
 
     it "returns docked bikes" do
-      bike = Bike.new
+      bike = double(:bike)
       subject.dock(bike)
       expect(subject.bikes).to eq [bike]
     end
@@ -39,8 +40,8 @@ describe DockingStation do
     #end
 
     it "doesn't dock a new bike if there are 20 bikes already docked" do
-      (subject.capacity).times {subject.dock(Bike.new)}
-      expect{subject.dock(Bike.new)}.to raise_error "No spaces available"
+      (subject.capacity).times {subject.dock(double(:bike))}
+      expect{subject.dock(double(:bike))}.to raise_error "No spaces available"
     end
 
     it 'initialiases with a default value of 20' do
@@ -54,13 +55,13 @@ describe DockingStation do
 
     it 'docks 22 bikes' do
       station = DockingStation.new(22)
-      22.times {station.dock(Bike.new)}
-      expect{station.dock(Bike.new)}.to raise_error "No spaces available"
+      22.times {station.dock(double(:bike))}
+      expect{station.dock(double(:bike))}.to raise_error "No spaces available"
     end
 
     it "doesn't release the bike if it's broken" do
       docking_station = DockingStation.new
-      bike = Bike.new
+      bike = double(:bike)
       bike.set_broken
       docking_station.dock(bike)
       expect{docking_station.release_bike}.to raise_error("No working bikes available")
@@ -68,13 +69,21 @@ describe DockingStation do
 
     it "should return the only working bike in an array of 2 broken bikes and 1 working bike" do
       docking_station = DockingStation.new
-      bike01 = Bike.new
+      bike01 = double(:bike)
       bike01.set_broken
-      bike02 = Bike.new
-      bike03 = Bike.new
+      bike02 = double(:bike)
+      bike03 = double(:bike)
       bike03.set_broken
       docking_station.dock(bike01); docking_station.dock(bike02); docking_station.dock(bike03)
       expect(docking_station.release_bike).to eq bike02
+    end
+
+    it 'should release working bikes' do
+      subject.dock double(:bike)
+
+      bike = subject.release_bike
+
+      expect(bike).to be_working
     end
 
 end

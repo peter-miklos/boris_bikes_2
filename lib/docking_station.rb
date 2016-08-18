@@ -14,7 +14,7 @@ class DockingStation
   def release_bike
     raise "No bike available" if empty?
     @bikes.each.with_index do |bike, index|
-        return @bikes.delete_at(index) if bike.working?        
+        return @bikes.delete_at(index) if bike.working?
     end
     raise "No working bikes available"
 
@@ -25,13 +25,6 @@ class DockingStation
     @bikes << bike
 
   end
-
-  #def bike
-  #  @bike
-  #end
-  #commented out due to the use of attr_reader below
-
-
 
   private
 
