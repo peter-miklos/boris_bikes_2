@@ -58,4 +58,14 @@ describe DockingStation do
       expect{station.dock(Bike.new)}.to raise_error "No spaces available"
     end
 
+    it "doesn't release the bike if it's broken" do
+      docking_station = DockingStation.new
+      bike = Bike.new
+      bike.set_broken
+      docking_station.dock(bike)
+      expect{docking_station.release_bike}.to raise_error("No working bikes available")
+    end
+
+
+
 end
